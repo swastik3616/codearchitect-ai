@@ -11,6 +11,7 @@ CodeArchitect AI is an intelligent developer assistant that automatically clones
 - 🧠 **Vector Embeddings**: Uses `sentence-transformers` (`all-MiniLM-L6-v2`) and **ChromaDB** to create and store semantic embeddings of code chunks for rapid information retrieval.
 - 🤖 **AI Code Assistant**: Integrated with **OpenAI GPT-3.5** to instantly generate high-level architectural summaries and answer specific questions about the codebase context using RAG (Retrieval-Augmented Generation).
 - 📊 **Dependency Graph Generation**: Automatically maps out the structural layout of the source files using `networkx`.
+- 🔐 **Authentication & User Data**: Uses **Supabase** to provide secure Google and GitHub OAuth sign-ins, and stores user profiles (email and username) for personalized experiences.
 - ⚡ **Modern UI**: A responsive Next.js frontend built with TailwindCSS, featuring real-time polling updates, a visual component viewer, and a sleek glassmorphic chat interface.
 
 ## Tech Stack
@@ -19,6 +20,7 @@ CodeArchitect AI is an intelligent developer assistant that automatically clones
 - [Next.js](https://nextjs.org/) (React, TypeScript)
 - [Tailwind CSS](https://tailwindcss.com/)
 - `lucide-react` (Icons)
+- [Supabase client](https://supabase.com/) (Auth & Database)
 
 **Backend:**
 - [FastAPI](https://fastapi.tiangolo.com/) (Python)
@@ -75,6 +77,12 @@ Open a new terminal, navigate to the `frontend` directory, and install the depen
 ```bash
 cd frontend
 npm install
+```
+
+Create a `.env.local` file inside the `frontend` directory to connect to your Supabase project:
+```env
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url_here
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_public_key_here
 ```
 
 Start the Next.js development server:

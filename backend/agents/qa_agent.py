@@ -1,17 +1,17 @@
 import os
-import google.generativeai as genai
+from openai import OpenAI
 import hashlib
 
-def configure_gemini():
-    api_key = os.getenv("GEMINI_API_KEY") or os.getenv("OPENAI_API_KEY")
+def get_openai_client():
+    api_key = os.getenv("OPENAI_API_KEY")
     if not api_key or api_key == "your_openai_api_key_here":
-        return False
-    genai.configure(api_key=api_key)
-    return True
+        return None
+    return OpenAI(api_key=api_key)
 
 def generate_project_summary(repo_structure_str: str, sample_chunks_str: str) -> str:
-    if not configure_gemini():
-        return "Gemini API Key not configured. Please add GEMINI_API_KEY to your .env file."
+    client = get_openai_client()
+    if not client:
+        return "OpenAI API Key not configured. Please add OPENAI_API_KEY to your .env file."
         
     prompt = f"""
 You are an expert software architect analyzing a codebase.
@@ -25,17 +25,24 @@ Sample Code Context:
 {sample_chunks_str}
 """
     try:
-        model = genai.GenerativeModel('gemini-2.5-flash')
-        response = model.generate_content(prompt)
-        return response.text
+        response = client.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "system", "content": "You are a senior software architect."},
+                {"role": "user", "content": prompt}
+            ],
+            max_tokens=600
+        )
+        return response.choices[0].message.content
     except Exception as e:
         return f"Error generating summary: {str(e)}"
 
 def answer_question(repo_url: str, question: str) -> str:
     from embeddings.embedder import get_chroma_client, model as embed_model
     
-    if not configure_gemini():
-        return "Gemini API Key not configured."
+    client = get_openai_client()
+    if not client:
+        return "OpenAI API Key not configured."
         
     chroma_client = get_chroma_client()
     collection_name = hashlib.sha256(repo_url.encode('utf-8')).hexdigest()
@@ -70,8 +77,14 @@ Question: {question}
 """
 
     try:
-        model = genai.GenerativeModel('gemini-1.5-pro')
-        response = model.generate_content(prompt)
-        return response.text
+        response = client.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "system", "content": "You are a helpful coding assistant examining a repository."},
+                {"role": "user", "content": prompt}
+            ],
+            max_tokens=600
+        )
+        return response.choices[0].message.content
     except Exception as e:
         return f"Error answering question: {str(e)}"

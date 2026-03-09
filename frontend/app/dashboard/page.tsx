@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { api } from "@/services/api";
+import { supabase } from "@/utils/supabase/client";
 import { Loader2, CheckCircle2, AlertCircle, ArrowLeft } from "lucide-react";
 import StructureViewer from "@/components/StructureViewer";
 import ChatInterface from "@/components/ChatInterface";
@@ -22,6 +23,15 @@ export default function DashboardPage() {
       return;
     }
 
+    // Check Authentication
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (!session) {
+        router.push("/");
+        return;
+      }
+      startAnalysis();
+    });
+
     const startAnalysis = async () => {
       try {
         const res = await api.analyzeRepo(repoUrl);
@@ -31,7 +41,6 @@ export default function DashboardPage() {
         setStatus("failed");
       }
     };
-    startAnalysis();
   }, [repoUrl, router]);
 
   useEffect(() => {
