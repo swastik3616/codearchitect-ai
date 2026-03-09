@@ -9,7 +9,7 @@ CodeArchitect AI is an intelligent developer assistant that automatically clones
 - 🔍 **Repository Cloning & Caching**: Instantly clones a given GitHub URL and caches it locally (using SHA-256 caching) for faster repeated analysis. Safety triggers prevent oversized repositories from exhausting storage.
 - 🧩 **Smart Code Parsing**: Intelligently chunks source code by functions/classes for languages like Python, filtering out irrelevant dependencies (`node_modules`, `dist`, etc.) and non-code files.
 - 🧠 **Vector Embeddings**: Uses `sentence-transformers` (`all-MiniLM-L6-v2`) and **ChromaDB** to create and store semantic embeddings of code chunks for rapid information retrieval.
-- 🤖 **AI Code Assistant**: Integrated with **Google Gemini 1.5 Pro** to instantly generate high-level architectural summaries and answer specific questions about the codebase context using RAG (Retrieval-Augmented Generation).
+- 🤖 **AI Code Assistant**: Integrated with **OpenAI GPT-3.5** to instantly generate high-level architectural summaries and answer specific questions about the codebase context using RAG (Retrieval-Augmented Generation).
 - 📊 **Dependency Graph Generation**: Automatically maps out the structural layout of the source files using `networkx`.
 - ⚡ **Modern UI**: A responsive Next.js frontend built with TailwindCSS, featuring real-time polling updates, a visual component viewer, and a sleek glassmorphic chat interface.
 
@@ -22,7 +22,7 @@ CodeArchitect AI is an intelligent developer assistant that automatically clones
 
 **Backend:**
 - [FastAPI](https://fastapi.tiangolo.com/) (Python)
-- `google-genai` (For Gemini LLM integration)
+- `openai` (For OpenAI LLM integration)
 - `chromadb` (Vector Database)
 - `sentence-transformers` (Embeddings)
 - `GitPython` (Repository Cloning)
@@ -33,7 +33,7 @@ CodeArchitect AI is an intelligent developer assistant that automatically clones
 - **Node.js** (v18+)
 - **Python** (v3.10+)
 - **Git**
-- A **Google Gemini API Key**
+- An **OpenAI API Key**
 
 ## Local Setup
 
@@ -59,7 +59,7 @@ pip install -r requirements.txt
 
 Create a `.env` file inside the `backend` directory:
 ```env
-GEMINI_API_KEY=your_gemini_api_key_here
+OPENAI_API_KEY=your_openai_api_key_here
 CHROMA_DB_PATH=./vector_db
 REPO_STORAGE_PATH=./repos
 ```
