@@ -2,7 +2,7 @@
 
 CodeArchitect AI is an intelligent developer assistant that automatically clones, parses, and analyzes GitHub repositories. By leveraging vector embeddings and a modern AI layer, developers can ask natural language questions about complex codebases and instantly get architectural summaries and code-level answers.
 
-![CodeArchitect AI UI](frontend/public/favicon.ico) *(Replace with actual screenshot)*
+
 
 ## Features
 
