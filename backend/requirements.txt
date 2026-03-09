@@ -1,0 +1,11 @@
+fastapi
+uvicorn
+gitpython
+sentence-transformers
+chromadb
+openai
+pydantic
+python-dotenv
+supabase
+networkx
+graphviz
