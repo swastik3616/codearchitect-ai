@@ -12,8 +12,9 @@ CodeArchitect AI is an intelligent developer assistant that automatically clones
 - 🤖 **AI Code Assistant**: Integrated with **OpenAI GPT-3.5** to instantly generate high-level architectural summaries and answer specific questions about the codebase context using RAG (Retrieval-Augmented Generation).
 - 📊 **Dependency Graph Generation**: Automatically maps out the structural layout of the source files using `networkx`.
 - 🔐 **Authentication & User Data**: Uses **Supabase** to provide secure Google and GitHub OAuth sign-ins, and stores user profiles (email and username) for personalized experiences.
-- ⚡ **Modern UI**: A responsive Next.js frontend built with TailwindCSS, featuring real-time polling updates, a visual component viewer, and a sleek glassmorphic chat interface.
-
+- ⚡ **Modern UI**: A responsive Next.js frontend built with TailwindCSS, featuring real-time polling updates, a visual component viewer, dynamic background animations, a sleek glassmorphic chat interface, and **adaptive Light/Dark mode**.
+- 🔔 **Global Notifications**: Integrated toast notifications (`sonner`) to immediately alert users upon successful repository extraction.
+- 📅 **Extraction History**: Users can view their past repository extractions via an interactive modal with robust date filtering (e.g., 0-10 days, 1 month, 3 months).
 ## Tech Stack
 
 **Frontend:**
