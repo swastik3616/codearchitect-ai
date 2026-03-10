@@ -5,7 +5,8 @@ import { supabase } from "@/utils/supabase/client";
 import { User } from "@supabase/supabase-js";
 import RepoInput from "@/components/RepoInput";
 import AuthForm from "@/components/AuthForm";
-import { Github, LogOut, User as UserIcon } from "lucide-react";
+import UserMenu from "@/components/UserMenu";
+import { Github } from "lucide-react";
 
 export default function Home() {
   const [user, setUser] = useState<User | null>(null);
@@ -29,28 +30,15 @@ export default function Home() {
   };
 
   return (
-    <main className="min-h-screen bg-[#0a0a0a] flex flex-col items-center justify-center relative overflow-hidden px-4 py-12">
+    <main className="min-h-screen flex flex-col items-center justify-center relative overflow-hidden px-4 py-12">
       {/* Background decorations */}
-      <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-blue-600/20 blur-[120px] rounded-full pointer-events-none" />
-      <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-purple-600/20 blur-[120px] rounded-full pointer-events-none" />
+      <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-blue-600/20 blur-[120px] rounded-full pointer-events-none animate-blob" />
+      <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-purple-600/20 blur-[120px] rounded-full pointer-events-none animate-blob" style={{ animationDelay: "2s" }} />
 
       {/* User Header */}
       {user && (
-        <div className="absolute top-6 right-6 z-50 flex items-center gap-4 bg-white/5 border border-white/10 px-4 py-2 rounded-full backdrop-blur-md">
-          <div className="flex items-center gap-2 text-sm text-gray-300">
-            <UserIcon className="w-4 h-4 text-blue-400" />
-            <span className="font-medium hidden sm:inline-block">
-              {user.email}
-            </span>
-          </div>
-          <div className="w-px h-4 bg-white/20"></div>
-          <button 
-            onClick={handleSignOut}
-            className="flex items-center gap-1 text-sm text-red-400 hover:text-red-300 transition-colors"
-          >
-            <LogOut className="w-4 h-4" />
-            Sign Out
-          </button>
+        <div className="absolute top-6 right-6 z-50">
+          <UserMenu user={user} onSignOut={handleSignOut} />
         </div>
       )}
 
@@ -60,10 +48,10 @@ export default function Home() {
         </div>
         
         <div className="text-center space-y-4">
-          <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-white to-purple-400 drop-shadow-sm">
+          <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-blue-500 via-purple-500 to-blue-500 drop-shadow-sm">
             Understand Code. <br/> Instantly.
           </h1>
-          <p className="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto font-light">
+          <p className="text-lg md:text-xl text-foreground/70 max-w-2xl mx-auto font-light">
             Paste any GitHub repository and get instant AI-powered architectural insights, dependency graphs, and a chat interface to ask questions about the codebase.
           </p>
         </div>

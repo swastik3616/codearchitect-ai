@@ -34,10 +34,10 @@ export default function ChatInterface({ repoUrl }: { repoUrl: string }) {
   };
 
   return (
-    <div className="flex flex-col h-full bg-black/20">
-      <div className="p-4 border-b border-white/10 bg-black/40">
-        <h3 className="font-semibold text-white flex items-center gap-2">
-          <Bot className="text-blue-400 w-5 h-5"/> Repository Assistant
+    <div className="flex flex-col h-full bg-background/50">
+      <div className="p-4 border-b border-[var(--panel-border)] bg-[var(--panel)]">
+        <h3 className="font-semibold text-foreground flex items-center gap-2">
+          <Bot className="text-blue-500 w-5 h-5"/> Repository Assistant
         </h3>
       </div>
       
@@ -48,7 +48,7 @@ export default function ChatInterface({ repoUrl }: { repoUrl: string }) {
                {msg.role === 'user' ? <UserCircle className="w-5 h-5 text-blue-400" /> : <Bot className="w-5 h-5" />}
             </div>
             <div className={`px-4 py-3 rounded-2xl max-w-[85%] text-sm leading-relaxed ${
-              msg.role === 'user' ? 'bg-blue-600 text-white rounded-tr-sm' : 'bg-white/10 text-gray-200 border border-white/5 rounded-tl-sm'
+              msg.role === 'user' ? 'bg-blue-600 text-white rounded-tr-sm' : 'bg-[var(--panel)] text-foreground border border-[var(--panel-border)] rounded-tl-sm'
             }`}>
               {msg.content.split("\\n").map((line, idx) => (
                 <span key={idx}>
@@ -61,10 +61,10 @@ export default function ChatInterface({ repoUrl }: { repoUrl: string }) {
         ))}
         {loading && (
           <div className="flex gap-3">
-            <div className="w-8 h-8 rounded-full bg-purple-600/20 text-purple-400 flex items-center justify-center shrink-0">
+            <div className="w-8 h-8 rounded-full bg-purple-600/20 text-purple-500 flex items-center justify-center shrink-0">
                <Bot className="w-5 h-5" />
             </div>
-            <div className="px-4 py-3 rounded-2xl bg-white/10 border border-white/5 rounded-tl-sm text-gray-400 flex items-center">
+            <div className="px-4 py-3 rounded-2xl bg-[var(--panel)] border border-[var(--panel-border)] rounded-tl-sm text-foreground/70 flex items-center">
               <Loader2 className="w-4 h-4 animate-spin" />
             </div>
           </div>
@@ -72,7 +72,7 @@ export default function ChatInterface({ repoUrl }: { repoUrl: string }) {
         <div ref={endRef} />
       </div>
 
-      <div className="p-4 bg-black/40 border-t border-white/10">
+      <div className="p-4 bg-[var(--panel)] border-t border-[var(--panel-border)]">
         <form onSubmit={handleSubmit} className="relative">
           <input
             type="text"
@@ -80,7 +80,7 @@ export default function ChatInterface({ repoUrl }: { repoUrl: string }) {
             onChange={(e) => setInput(e.target.value)}
             disabled={loading}
             placeholder="Ask about architecture, functions, flow..."
-            className="w-full bg-white/5 border border-gray-700 rounded-xl py-3 pl-4 pr-12 text-sm text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50"
+            className="w-full bg-background border border-[var(--panel-border)] rounded-xl py-3 pl-4 pr-12 text-sm text-foreground placeholder-foreground/50 focus:outline-none focus:ring-2 focus:ring-blue-500/50"
           />
           <button 
             type="submit" 
