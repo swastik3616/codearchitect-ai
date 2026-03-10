@@ -1,0 +1,31 @@
+name: Webpack Build (Next.js Frontend)
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Use Node.js 18.x
+      uses: actions/setup-node@v4
+      with:
+        node-version: 18.x
+        
+    - name: Install dependencies
+      working-directory: ./frontend
+      run: npm install
+
+    - name: Build with Next.js (Webpack)
+      working-directory: ./frontend
+      run: npm run build
+      env:
+        # Dummy values to allow Next.js to build without erroring on missing env vars
+        NEXT_PUBLIC_SUPABASE_URL: "https://dummy.supabase.co"
+        NEXT_PUBLIC_SUPABASE_ANON_KEY: "dummy"
