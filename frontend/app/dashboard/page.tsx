@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { api } from "@/services/api";
 import { supabase } from "@/utils/supabase/client";
@@ -8,7 +8,7 @@ import StructureViewer from "@/components/StructureViewer";
 import ChatInterface from "@/components/ChatInterface";
 import { toast } from "sonner";
 
-export default function DashboardPage() {
+function DashboardContent() {
   const searchParams = useSearchParams();
   const repoUrl = searchParams.get("repo");
   const router = useRouter();
@@ -136,5 +136,18 @@ export default function DashboardPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function DashboardPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-background text-foreground flex flex-col items-center justify-center p-4 relative overflow-hidden">
+        <div className="absolute inset-0 bg-blue-500/5 blur-[120px] rounded-full animate-pulse" />
+        <Loader2 className="w-16 h-16 text-blue-500 animate-spin relative z-10" />
+      </div>
+    }>
+      <DashboardContent />
+    </Suspense>
   );
 }
