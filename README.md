@@ -15,6 +15,10 @@ CodeArchitect AI is an intelligent developer assistant that automatically clones
 - ⚡ **Modern UI**: A responsive Next.js frontend built with TailwindCSS, featuring real-time polling updates, a visual component viewer, dynamic background animations, a sleek glassmorphic chat interface, and **adaptive Light/Dark mode**.
 - 🔔 **Global Notifications**: Integrated toast notifications (`sonner`) to immediately alert users upon successful repository extraction.
 - 📅 **Extraction History**: Users can view their past repository extractions via an interactive modal with robust date filtering (e.g., 0-10 days, 1 month, 3 months).
+- 🏗️ **Generic Architecture Extraction**: AI automatically identifies the project's **Topic Abstract** and **Technology Stack** from all languages and frameworks directly via file structure analysis.
+- 🤖 **Project-Aware Chatbot**: The AI assistant natively understands the full file tree and can accurately verify and confirm if specific files or folders exist within the repository.
+- 📐 **UML Diagram Generation**: Users can request visual structural flow diagrams from the AI, which automatically generates and renders **Mermaid.js** diagrams inside the chat interface.
+- 📥 **Interactive Diagram Export**: Generated architecture diagrams feature one-click export buttons to download as scalable `SVG` Image files or raw `Mermaid Source Code`.
 ## Tech Stack
 
 **Frontend:**
