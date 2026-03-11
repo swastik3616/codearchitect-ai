@@ -48,6 +48,8 @@ def process_repository(task_id: str, url: str):
             "chunks_processed": num_chunks
         }
     except Exception as e:
+        import traceback
+        traceback.print_exc()
         tasks[task_id] = {"status": "failed", "error": str(e)}
 
 @router.post("/analyze-repo")
@@ -65,5 +67,19 @@ async def analyze_status(task_id: str):
 
 @router.post("/ask-question")
 async def ask_question_api(request: QuestionRequest):
-    answer = answer_question(request.url, request.question)
+    from services.repo_service import get_repo_hash
+    
+    storage_path = os.path.abspath(os.getenv("REPO_STORAGE_PATH", "./repos"))
+    repo_hash = get_repo_hash(request.url)
+    repo_dir = os.path.join(storage_path, repo_hash)
+    
+    graph_str = ""
+    if os.path.exists(repo_dir):
+        try:
+            graph = generate_dependency_graph(repo_dir)
+            graph_str = str(graph)
+        except Exception:
+            pass
+            
+    answer = answer_question(request.url, request.question, graph_str)
     return {"answer": answer}

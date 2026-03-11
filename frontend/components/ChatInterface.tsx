@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { Send, UserCircle, Bot, Loader2 } from "lucide-react";
 import { api } from "@/services/api";
+import MermaidDiagram from "./MermaidDiagram";
 
 export default function ChatInterface({ repoUrl }: { repoUrl: string }) {
   const [messages, setMessages] = useState<{role: 'user' | 'ai', content: string}[]>([
@@ -48,14 +49,33 @@ export default function ChatInterface({ repoUrl }: { repoUrl: string }) {
                {msg.role === 'user' ? <UserCircle className="w-5 h-5 text-blue-400" /> : <Bot className="w-5 h-5" />}
             </div>
             <div className={`px-4 py-3 rounded-2xl max-w-[85%] text-sm leading-relaxed ${
-              msg.role === 'user' ? 'bg-blue-600 text-white rounded-tr-sm' : 'bg-[var(--panel)] text-foreground border border-[var(--panel-border)] rounded-tl-sm'
+              msg.role === 'user' ? 'bg-blue-600 text-white rounded-tr-sm' : 'bg-[var(--panel)] text-foreground border border-[var(--panel-border)] rounded-tl-sm w-full overflow-hidden'
             }`}>
-              {msg.content.split("\\n").map((line, idx) => (
-                <span key={idx}>
-                  {line}
-                  <br />
-                </span>
-              ))}
+              {msg.role === 'user' ? (
+                 msg.content.split("\n").map((line, idx) => (
+                  <span key={idx}>
+                    {line}
+                    <br />
+                  </span>
+                ))
+              ) : (
+                msg.content.split(/(```mermaid[\s\S]*?```)/g).map((part, idx) => {
+                  if (part.startsWith('```mermaid') && part.endsWith('```')) {
+                    const chartCode = part.replace(/```mermaid\n?/, '').replace(/```$/, '').trim();
+                    return <MermaidDiagram key={idx} chart={chartCode} />;
+                  }
+                  return (
+                    <span key={idx}>
+                      {part.split("\n").map((line, i) => (
+                        <span key={i}>
+                          {line}
+                          <br />
+                        </span>
+                      ))}
+                    </span>
+                  );
+                })
+              )}
             </div>
           </div>
         ))}
