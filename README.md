@@ -6,19 +6,19 @@ CodeArchitect AI is an intelligent developer assistant that automatically clones
 
 ## Features
 
-- 🔍 **Repository Cloning & Caching**: Instantly clones a given GitHub URL and caches it locally (using SHA-256 caching) for faster repeated analysis. Safety triggers prevent oversized repositories from exhausting storage.
-- 🧩 **Smart Code Parsing**: Intelligently chunks source code by functions/classes for languages like Python, filtering out irrelevant dependencies (`node_modules`, `dist`, etc.) and non-code files.
-- 🧠 **Vector Embeddings**: Uses `sentence-transformers` (`all-MiniLM-L6-v2`) and **ChromaDB** to create and store semantic embeddings of code chunks for rapid information retrieval.
-- 🤖 **AI Code Assistant**: Integrated with **OpenAI GPT-3.5** to instantly generate high-level architectural summaries and answer specific questions about the codebase context using RAG (Retrieval-Augmented Generation).
-- 📊 **Dependency Graph Generation**: Automatically maps out the structural layout of the source files using `networkx`.
-- 🔐 **Authentication & User Data**: Uses **Supabase** to provide secure Google and GitHub OAuth sign-ins, and stores user profiles (email and username) for personalized experiences.
-- ⚡ **Modern UI**: A responsive Next.js frontend built with TailwindCSS, featuring real-time polling updates, a visual component viewer, dynamic background animations, a sleek glassmorphic chat interface, and **adaptive Light/Dark mode**.
-- 🔔 **Global Notifications**: Integrated toast notifications (`sonner`) to immediately alert users upon successful repository extraction.
-- 📅 **Extraction History**: Users can view their past repository extractions via an interactive modal with robust date filtering (e.g., 0-10 days, 1 month, 3 months).
-- 🏗️ **Generic Architecture Extraction**: AI automatically identifies the project's **Topic Abstract** and **Technology Stack** from all languages and frameworks directly via file structure analysis.
-- 🤖 **Project-Aware Chatbot**: The AI assistant natively understands the full file tree and can accurately verify and confirm if specific files or folders exist within the repository.
-- 📐 **UML Diagram Generation**: Users can request visual structural flow diagrams from the AI, which automatically generates and renders **Mermaid.js** diagrams inside the chat interface.
-- 📥 **Interactive Diagram Export**: Generated architecture diagrams feature one-click export buttons to download as scalable `SVG` Image files or raw `Mermaid Source Code`.
+-  **Repository Cloning & Caching**: Instantly clones a given GitHub URL and caches it locally (using SHA-256 caching) for faster repeated analysis. Safety triggers prevent oversized repositories from exhausting storage.
+-  **Smart Code Parsing**: Intelligently chunks source code by functions/classes for languages like Python, filtering out irrelevant dependencies (`node_modules`, `dist`, etc.) and non-code files.
+-  **Vector Embeddings**: Uses `sentence-transformers` (`all-MiniLM-L6-v2`) and **ChromaDB** to create and store semantic embeddings of code chunks for rapid information retrieval.
+-  **AI Code Assistant**: Integrated with **OpenAI GPT-3.5** to instantly generate high-level architectural summaries and answer specific questions about the codebase context using RAG (Retrieval-Augmented Generation).
+-  **Dependency Graph Generation**: Automatically maps out the structural layout of the source files using `networkx`.
+-  **Authentication & User Data**: Uses **Supabase** to provide secure Google and GitHub OAuth sign-ins, and stores user profiles (email and username) for personalized experiences.
+-  **Modern UI**: A responsive Next.js frontend built with TailwindCSS, featuring real-time polling updates, a visual component viewer, dynamic background animations, a sleek glassmorphic chat interface, and **adaptive Light/Dark mode**.
+-  **Global Notifications**: Integrated toast notifications (`sonner`) to immediately alert users upon successful repository extraction.
+-  **Extraction History**: Users can view their past repository extractions via an interactive modal with robust date filtering (e.g., 0-10 days, 1 month, 3 months).
+-  **Generic Architecture Extraction**: AI automatically identifies the project's **Topic Abstract** and **Technology Stack** from all languages and frameworks directly via file structure analysis.
+-  **Project-Aware Chatbot**: The AI assistant natively understands the full file tree and can accurately verify and confirm if specific files or folders exist within the repository.
+-  **UML Diagram Generation**: Users can request visual structural flow diagrams from the AI, which automatically generates and renders **Mermaid.js** diagrams inside the chat interface.
+-  **Interactive Diagram Export**: Generated architecture diagrams feature one-click export buttons to download as scalable `SVG` Image files or raw `Mermaid Source Code`.
 ## Tech Stack
 
 **Frontend:**
