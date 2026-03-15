@@ -1,108 +1,157 @@
-# CodeArchitect AI
+## CodeArchitect AI
 
-CodeArchitect AI is an intelligent developer assistant that automatically clones, parses, and analyzes GitHub repositories. By leveraging vector embeddings and a modern AI layer, developers can ask natural language questions about complex codebases and instantly get architectural summaries and code-level answers.
+CodeArchitect AI is an intelligent developer assistant that automatically clones, parses, and analyzes GitHub repositories. By combining local vector embeddings with an LLM, it lets you paste a repo URL and immediately:
 
+- **See a high-level architecture summary**
+- **Explore a dependency graph**
+- **Chat with an AI that is grounded in the repository’s code**
 
+---
 
 ## Features
 
--  **Repository Cloning & Caching**: Instantly clones a given GitHub URL and caches it locally (using SHA-256 caching) for faster repeated analysis. Safety triggers prevent oversized repositories from exhausting storage.
--  **Smart Code Parsing**: Intelligently chunks source code by functions/classes for languages like Python, filtering out irrelevant dependencies (`node_modules`, `dist`, etc.) and non-code files.
--  **Vector Embeddings**: Uses `sentence-transformers` (`all-MiniLM-L6-v2`) and **ChromaDB** to create and store semantic embeddings of code chunks for rapid information retrieval.
--  **AI Code Assistant**: Integrated with **OpenAI GPT-3.5** to instantly generate high-level architectural summaries and answer specific questions about the codebase context using RAG (Retrieval-Augmented Generation).
--  **Dependency Graph Generation**: Automatically maps out the structural layout of the source files using `networkx`.
--  **Authentication & User Data**: Uses **Supabase** to provide secure Google and GitHub OAuth sign-ins, and stores user profiles (email and username) for personalized experiences.
--  **Modern UI**: A responsive Next.js frontend built with TailwindCSS, featuring real-time polling updates, a visual component viewer, dynamic background animations, a sleek glassmorphic chat interface, and **adaptive Light/Dark mode**.
--  **Global Notifications**: Integrated toast notifications (`sonner`) to immediately alert users upon successful repository extraction.
--  **Extraction History**: Users can view their past repository extractions via an interactive modal with robust date filtering (e.g., 0-10 days, 1 month, 3 months).
--  **Generic Architecture Extraction**: AI automatically identifies the project's **Topic Abstract** and **Technology Stack** from all languages and frameworks directly via file structure analysis.
--  **Project-Aware Chatbot**: The AI assistant natively understands the full file tree and can accurately verify and confirm if specific files or folders exist within the repository.
--  **UML Diagram Generation**: Users can request visual structural flow diagrams from the AI, which automatically generates and renders **Mermaid.js** diagrams inside the chat interface.
--  **Interactive Diagram Export**: Generated architecture diagrams feature one-click export buttons to download as scalable `SVG` Image files or raw `Mermaid Source Code`.
+- **Repository cloning & caching**: Clones a GitHub URL once, caches it using a SHA‑256 hash, and enforces file/size limits to avoid huge repositories.
+- **Smart code parsing**: Splits code into meaningful chunks (functions, classes, blocks) for multiple languages, ignoring heavy folders like `node_modules`, `dist`, and build artifacts.
+- **Vector embeddings & RAG**: Uses `sentence-transformers` (`all-MiniLM-L6-v2`) with **ChromaDB** to build a searchable vector index and answer questions via Retrieval‑Augmented Generation.
+- **AI architecture assistant**: Uses an LLM to generate an abstract, technology stack, and architecture overview of the project.
+- **Dependency graph visualization**: Builds a graph of files and directories (via `networkx`) that the UI can render into a visual structure.
+- **Authentication & user profiles**: Supabase‑backed auth (GitHub OAuth + email/password) with basic profile storage.
+- **Modern dashboard UI**: Next.js + Tailwind CSS UI with glassmorphism, status indicators, and a side‑by‑side architecture + chat experience.
+- **Mermaid diagram generation**: Ask the assistant for UML / architecture diagrams and see them rendered as Mermaid charts in the chat.
+
+---
+
+## Architecture
+
+- **Frontend (`frontend/`)**
+  - Next.js (App Router) + TypeScript
+  - Tailwind CSS for styling and theming
+  - Supabase client for authentication
+  - Key screens/components:
+    - Landing page with GitHub repo input
+    - Dashboard showing architecture summary and dependency nodes (`StructureViewer`)
+    - Repository‑aware chat (`ChatInterface`) with Mermaid diagram rendering
+
+- **Backend (`backend/`)**
+  - FastAPI service exposing:
+    - `POST /analyze-repo`: clone + parse + embed + summarize
+    - `GET /analyze-status/{task_id}`: poll long‑running analysis
+    - `POST /ask-question`: RAG‑style Q&A over the stored embeddings
+  - Services:
+    - `repo_service.py`: cloning, caching, and basic repo sanity checks
+    - `code_parser.py`: file discovery and chunking
+    - `graph_service.py`: dependency graph generation
+    - `embeddings/embedder.py`: embedding + ChromaDB storage
+    - `agents/qa_agent.py`: prompts for summaries and question answering
+
+---
 ## Tech Stack
 
-**Frontend:**
+**Frontend**
 - [Next.js](https://nextjs.org/) (React, TypeScript)
 - [Tailwind CSS](https://tailwindcss.com/)
-- `lucide-react` (Icons)
-- [Supabase client](https://supabase.com/) (Auth & Database)
+- [`lucide-react`](https://lucide.dev/) (icons)
+- [Supabase JS client](https://supabase.com/) (auth & user data)
 
-**Backend:**
+**Backend**
 - [FastAPI](https://fastapi.tiangolo.com/) (Python)
-- `openai` (For OpenAI LLM integration)
-- `chromadb` (Vector Database)
-- `sentence-transformers` (Embeddings)
-- `GitPython` (Repository Cloning)
-- `networkx` (Dependency Mapping)
+- [`openai`](https://github.com/openai/openai-python) (or compatible Gemini endpoint) for LLM calls
+- [`chromadb`](https://www.trychroma.com/) (vector database)
+- [`sentence-transformers`](https://www.sbert.net/) for embeddings
+- [`GitPython`](https://gitpython.readthedocs.io/) for repository cloning
+- [`networkx`](https://networkx.org/) for dependency mapping
+
+---
 
 ## Prerequisites
 
-- **Node.js** (v18+)
-- **Python** (v3.10+)
+- **Node.js** v18+
+- **Python** v3.10+
 - **Git**
-- An **OpenAI API Key**
+- An **LLM API key**:
+  - `GEMINI_API_KEY` **or**
+  - `OPENAI_API_KEY`
 
-## Local Setup
+---
 
-### 1. Clone the project
-```bash
-git clone https://github.com/yourusername/codearchitect-ai.git
-cd codearchitect-ai
-```
+## Backend Setup
 
-### 2. Backend Setup
-Navigate to the `backend` directory, set up a virtual environment, and install the dependencies:
+From the project root:
+
 ```bash
 cd backend
 python -m venv venv
 
-# On Windows:
+# Windows
 venv\Scripts\activate
-# On macOS/Linux:
+
+# macOS / Linux
 source venv/bin/activate
 
 pip install -r requirements.txt
 ```
 
-Create a `.env` file inside the `backend` directory:
+Create a `.env` file in `backend/`:
+
 ```env
-OPENAI_API_KEY=your_openai_api_key_here
+GEMINI_API_KEY=your_gemini_api_key_here   # optional, preferred if set
+OPENAI_API_KEY=your_openai_api_key_here  # fallback if GEMINI_API_KEY is not set
 CHROMA_DB_PATH=./vector_db
 REPO_STORAGE_PATH=./repos
 ```
 
-Start the FastAPI server:
+Run the FastAPI server:
+
 ```bash
 uvicorn main:app --reload
 ```
-The backend will run on `http://localhost:8000`.
 
-### 3. Frontend Setup
-Open a new terminal, navigate to the `frontend` directory, and install the dependencies:
+Backend will be available at `http://localhost:8000`.
+
+---
+
+## Frontend Setup
+
+From the project root:
+
 ```bash
 cd frontend
 npm install
 ```
 
-Create a `.env.local` file inside the `frontend` directory to connect to your Supabase project:
+Create `.env.local` in `frontend/` with your Supabase credentials:
+
 ```env
 NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url_here
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_public_key_here
 ```
 
-Start the Next.js development server:
+Start the Next.js dev server:
+
 ```bash
 npm run dev
 ```
-The frontend will run on `http://localhost:3000` (or `3001` if port 3000 is occupied).
 
-## Usage
+Frontend will be available at `http://localhost:3000`.
 
-1. Open your browser and go to `http://localhost:3000`.
-2. Paste any public GitHub repository URL into the central input field and click **Analyze**.
-3. Wait as the backend clones the repo, generates embeddings, and maps the architecture.
-4. Once completed, explore the high-level **Architecture Overview** and interact with the **AI Assistant Chat** to ask specific technical questions about the codebase.
+---
+
+## Usage Flow
+
+1. Visit `http://localhost:3000` in your browser.
+2. Sign in (GitHub OAuth or email/password via Supabase).
+3. Paste a public GitHub repository URL into the input field and click **Analyze**.
+4. Watch the dashboard update as the backend:
+   - Clones and parses the repository,
+   - Generates embeddings and stores them in Chroma,
+   - Produces an architecture summary and dependency graph.
+5. Once analysis is complete:
+   - Review the **Architecture Overview** in the left pane.
+   - Explore the **Dependency Map** nodes.
+   - Use the **chat** on the right to ask repository‑specific questions (implementation details, file presence, flows, etc.).
+
+---
 
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License. See the `LICENSE` file for details.

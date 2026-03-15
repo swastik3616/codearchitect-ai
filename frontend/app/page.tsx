@@ -30,7 +30,7 @@ export default function Home() {
   };
 
   return (
-    <main className="min-h-screen flex flex-col items-center justify-center relative overflow-hidden px-4 py-12">
+    <main className="min-h-screen flex flex-col items-center justify-center relative overflow-hidden px-4 py-12 bg-gradient-to-b from-background via-background/95 to-black">
       {/* Background decorations */}
       <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-blue-600/20 blur-[120px] rounded-full pointer-events-none animate-blob" />
       <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-purple-600/20 blur-[120px] rounded-full pointer-events-none animate-blob" style={{ animationDelay: "2s" }} />
@@ -52,7 +52,7 @@ export default function Home() {
             Understand Code. <br/> Instantly.
           </h1>
           <p className="text-lg md:text-xl text-foreground/70 max-w-2xl mx-auto font-light">
-            Paste any GitHub repository and get instant AI-powered architectural insights, dependency graphs, and a chat interface to ask questions about the codebase.
+            Paste any GitHub repository and get instant AI-powered architectural insights, dependency graphs, and a chat interface that actually understands the codebase.
           </p>
         </div>
 
@@ -67,19 +67,26 @@ export default function Home() {
             </div>
           )}
         </div>
-        
-        <div className="flex items-center gap-6 mt-12 text-sm text-gray-500 font-medium pb-8">
-          <div className="flex items-center gap-2">
-            <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-            FastAPI Backend
+
+        {/* Quick feature highlights */}
+        <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-4 w-full max-w-4xl text-sm text-gray-300 pb-4">
+          <div className="rounded-2xl border border-white/10 bg-white/5 p-4 shadow-lg backdrop-blur-md">
+            <p className="font-semibold text-foreground mb-1">1. Paste a GitHub URL</p>
+            <p className="text-foreground/70">
+              CodeArchitect clones and parses the repo with language-aware chunking, skipping heavy folders automatically.
+            </p>
           </div>
-          <div className="flex items-center gap-2">
-            <div className="w-2 h-2 rounded-full bg-blue-500 animate-pulse delay-100" />
-            Next.js Interface
+          <div className="rounded-2xl border border-white/10 bg-white/5 p-4 shadow-lg backdrop-blur-md">
+            <p className="font-semibold text-foreground mb-1">2. See architecture instantly</p>
+            <p className="text-foreground/70">
+              Get an LLM-generated abstract, technology stack, and dependency overview tailored to the project.
+            </p>
           </div>
-          <div className="flex items-center gap-2">
-            <div className="w-2 h-2 rounded-full bg-purple-500 animate-pulse delay-200" />
-            Vector Search Q&A
+          <div className="rounded-2xl border border-white/10 bg-white/5 p-4 shadow-lg backdrop-blur-md">
+            <p className="font-semibold text-foreground mb-1">3. Chat with the code</p>
+            <p className="text-foreground/70">
+              Ask questions grounded in vector search over the codebase, with optional Mermaid diagrams for flows.
+            </p>
           </div>
         </div>
 

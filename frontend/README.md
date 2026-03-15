@@ -1,36 +1,58 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## CodeArchitect AI – Frontend
 
-## Getting Started
+This directory contains the **Next.js + TypeScript** frontend for CodeArchitect AI.  
+It provides the landing page, authenticated dashboard, architecture viewer, and chat UI that talks to the FastAPI backend.
 
-First, run the development server:
+For a full project overview, see the root `README.md`. This file focuses on the frontend only.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+---
+
+## Main Screens
+
+- **Landing page (`app/page.tsx`)**
+  - Hero section explaining the product
+  - Authentication via Supabase (GitHub OAuth or email/password)
+  - GitHub repository URL input (`RepoInput`) for authenticated users
+
+- **Dashboard (`app/dashboard/page.tsx`)**
+  - Starts repository analysis and polls the backend for status
+  - Shows architecture summary and dependency nodes (`StructureViewer`)
+  - Hosts the repository‑aware chat panel (`ChatInterface`)
+
+---
+
+## Important Components
+
+- `components/RepoInput.tsx` – URL input and redirect to the dashboard.
+- `components/AuthForm.tsx` – Supabase‑powered auth form (GitHub + email/password).
+- `components/UserMenu.tsx` – Current user display and sign‑out button.
+- `components/StructureViewer.tsx` – Layout and styling for architecture summary + dependency nodes.
+- `components/ChatInterface.tsx` – Chat between the user and the repo‑aware AI assistant.
+- `components/MermaidDiagram.tsx` – Renders Mermaid.js diagrams returned from the backend.
+
+---
+
+## Environment Variables
+
+Create a `.env.local` file in `frontend/`:
+
+```env
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url_here
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_public_key_here
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+These variables are required for authentication to work.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Running the Frontend
 
-## Learn More
+From the `frontend/` directory:
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+npm install
+npm run dev
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+The app runs at `http://localhost:3000` in development.  
+Make sure the **backend** is also running so that repo analysis and chat work correctly.
