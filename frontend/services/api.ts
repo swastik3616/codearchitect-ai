@@ -27,9 +27,33 @@ export const api = {
     return res.json();
   },
 
-  async getStructure() {
-    const res = await fetch(`${API_URL}/repo-structure`);
-    if (!res.ok) throw new Error('Failed to get structure');
+  async explainFile(url: string, filePath: string) {
+    const res = await fetch(`${API_URL}/explain-file`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ url, file_path: filePath }),
+    });
+    if (!res.ok) throw new Error('Failed to explain file');
     return res.json();
-  }
+  },
+
+  async searchCode(url: string, query: string) {
+    const res = await fetch(`${API_URL}/search`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ url, query }),
+    });
+    if (!res.ok) throw new Error('Failed to search');
+    return res.json();
+  },
+
+  async getCodeQuality(url: string) {
+    const res = await fetch(`${API_URL}/code-quality`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ url }),
+    });
+    if (!res.ok) throw new Error('Failed to get code quality report');
+    return res.json();
+  },
 };
